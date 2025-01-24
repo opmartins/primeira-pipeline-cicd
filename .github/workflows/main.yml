@@ -34,6 +34,14 @@ jobs:
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.K8S_KUBECONFIG }} #Ficou faltando o kubeconfig, por que não tenho cluster no ar.
+    - name: Instalar AWS CLI e aws-iam-authenticator
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        curl -o aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/latest/download/aws-iam-authenticator-linux-amd64
+        chmod +x aws-iam-authenticator
+        sudo mv aws-iam-authenticator /usr/local/bin
     - name: Execução do manifest
       uses: Azure/k8s-deploy@v5
       with:
